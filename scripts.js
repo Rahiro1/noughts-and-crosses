@@ -1,15 +1,20 @@
 
 
 
-const gameManager = (function(){
+const gameManager = (function(pWinningText){
     let playerOne = createPlayer("X");
     let playerTwo = createPlayer("O");
     let activePlayer = playerOne;
+    let pWinText = pWinningText;
 
     const gameboard = (function(){
         let gameSquares = [createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare()]
 
         return {gameSquares};
+
+        function fillGameSquare(sqRef, symbol){
+            gameSquares[sqRef].symbol = symbol;
+        }
 
         function createGameSquare(){
             symbol : "";
@@ -17,6 +22,18 @@ const gameManager = (function(){
         }
     });
 
+    function resolveSquareClick(sqRef, pSquareText){
+        if(pText !== ""){
+            return;
+        }
+        gameboard.fillGameSquare(sqRef, activePlayer.symbol);
+        pSquareText.innerText = activePlayer.symbol;
+        winCheckObj = checkForWin();
+        if(winCheckObj.isGameEnd){
+            pWinText.innerText = winCheckObj.winner;
+        }
+        changeActivePlayer();
+    }
 
     function checkForWin () {
         let board = gameboard.gameSquares;
