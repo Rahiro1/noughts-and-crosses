@@ -18,6 +18,7 @@ const gameManager = (function(){
     let playerTwo = createPlayer("O");
     let activePlayer = playerOne;
     let pWinText = pWinningText;
+    let isGameOver = false;
 
     const gameboard = (function(){
         let gameSquares = [createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare(), createGameSquare()]
@@ -35,7 +36,7 @@ const gameManager = (function(){
     })();
 
     const resolveSquareClick = (sqRef, btnPressed) => {
-        if(gameboard.gameSquares[sqRef].symbol !== ""){
+        if(gameboard.gameSquares[sqRef].symbol !== "" || isGameOver){
             return;
         }
         gameboard.fillGameSquare(sqRef, activePlayer.symbol);
@@ -43,6 +44,7 @@ const gameManager = (function(){
         winCheckObj = checkForWin();
         if(winCheckObj.isGameEnd){
             pWinText.innerText = "Game Over. " + winCheckObj.winner + " wins!";
+            isGameOver = true;
         }
         changeActivePlayer();
     };
